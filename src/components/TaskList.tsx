@@ -24,56 +24,25 @@ export function TaskList() {
       isComplete: false
     }
 
-    console.log(dataTask);
-
     setTasks([...tasks, dataTask])
     setNewTaskTitle('');
   }
 
   function handleToggleTaskCompletion(id: number) {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
-    const taskIndex = tasks.findIndex(task => task.id === id);
+    const newTask = tasks.map(task => task.id === id ? {
+      ...task,
+      isComplete: !task.isComplete
+    } : task);
 
-    if (taskIndex === undefined) {
-      return;
-    }
-
-    const taskData = tasks[taskIndex];
-
-    if (taskData.isComplete === false) {
-      const newTask = {
-        id: taskData.id,
-        title: taskData.title,
-        isComplete: true
-      }
-
-      tasks.splice(taskIndex, 1, newTask);
-      return setTasks([...tasks]);
-
-    } else {
-      const newTask = {
-        id: taskData.id,
-        title: taskData.title,
-        isComplete: false
-      }
-
-      tasks.splice(taskIndex, 1, newTask);
-      return setTasks([...tasks]);
-    }
+    setTasks(newTask);
   }
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
-    const taskIndex = tasks.findIndex(task => task.id === id);
+    const taskFiltered = tasks.filter(task => task.id !== id);
 
-    console.log(taskIndex);
-
-    if (taskIndex === undefined) {
-      return;
-    }
-
-    tasks.splice(taskIndex, 1);
-    setTasks([...tasks]);
+    setTasks(taskFiltered);
   }
 
   return (
